@@ -1,0 +1,23 @@
+{
+    "name": "vahidirn/laravel-filter-query-neo4j",
+    "description": "A trait to add query filtering functions to Laravel models",
+    "require": {
+        "illuminate/support": "~5.1",
+        "php" : ">=5.4.0",
+        "folklore/graphql": "*",
+        "vahidirn/laravel-graphql": "*",
+        "vahidirn/neoeloquent": "*"
+    },
+    "authors": [
+        {
+            "name": "VahidIrn",
+            "email": "irnp@yahoo.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "VahidIrn\\FilterQueryNeo\\": "src"
+        }
+    },
+    "license": "MIT"
+}
