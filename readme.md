@@ -1,10 +1,10 @@
-# VahidIrn\FilterQueryNeo
+# VahidIrn\FilterQuery
 
 A trait to provide composable queries to Laravel models.
 
-The intended usage is to provide an easy way to declare how a model's fields are filterQueryNeo and allow the filter query to be expressed in a form that can be easily represented (as a JSON object for example).
+The intended usage is to provide an easy way to declare how a model's fields are filterQuery and allow the filter query to be expressed in a form that can be easily represented (as a JSON object for example).
 
-The VahidIrn\FilterQueryNeo\FilterQueryNeoTrait adds a filter() method to a Model which works with the Laravel query builder. The filter() method accepts a single argument which is an array of [field => value] pairs that define the search query being made. 
+The VahidIrn\FilterQuery\FilterQueryTrait adds a filter() method to a Model which works with the Laravel query builder. The filter() method accepts a single argument which is an array of [field => value] pairs that define the search query being made. 
 
 # Install
 
@@ -14,18 +14,18 @@ composer require vahidirn/laravel-filter-query-neo4j
 
 # Usage
 
-Basic usage is to add the trait to a Model class and configure filterQueryNeo fields.
+Basic usage is to add the trait to a Model class and configure filterQuery fields.
 
 ```
-use VahidIrn\FilterQueryNeo\FilterQueryNeo;
+use VahidIrn\FilterQuery\FilterQuery;
 
 class User extends Model
 {
-  use \VahidIrn\FilterQueryNeo\FilterQueryNeoTrait;
+  use \VahidIrn\FilterQuery\FilterQueryTrait;
   
-  protected $filterQueryNeo = [
-    'name' => FilterQueryNeo::String,
-    'email' => FilterQueryNeo::String
+  protected $filterQuery = [
+    'name' => FilterQuery::String,
+    'email' => FilterQuery::String
   ];
 }
 
@@ -43,7 +43,7 @@ User::filter($filter)->toSql();
 // select * from users where name like ? and email = ?
 ```
 
-The `$filterQueryNeo` property defines the fields that may be used in filter queries. The value is an array of *filter rules* that lists the possible variations the filter may use.
+The `$filterQuery` property defines the fields that may be used in filter queries. The value is an array of *filter rules* that lists the possible variations the filter may use.
 
 The built-in rules are:
 
@@ -68,13 +68,13 @@ A standard set of rules are provided
 * Date = [EQ, MIN, MAX, LT, GT]
 * Boolean = [EQ]
 
-A model's filterQueryNeo definition sets the rules available for each field. The first rule in the list is the default rule for the field. Other rules must add the rule name as a suffix in the filter query field name.
+A model's filterQuery definition sets the rules available for each field. The first rule in the list is the default rule for the field. Other rules must add the rule name as a suffix in the filter query field name.
 
 In the following definition, the 'name' field can use any of the String rules: EQ, LIKE, ILIKE, MATCH.
 
 ```
-User::$filterQueryNeo = [
-  'name' => FilterQueryNeo::String
+User::$filterQuery = [
+  'name' => FilterQuery::String
 ]
 ```
 
@@ -89,17 +89,17 @@ User::filter($filter);
 
 The SQL that is run will match any user whose name is a case-insensitive match containing 'John', such as 'Little john', 'Johnathon', 'JOHN'.
 
-The model's filterQueryNeo definition can also be return dynamically by overloading the getFilterQueryNeo() method on the class.
+The model's filterQuery definition can also be return dynamically by overloading the getFilterQuery() method on the class.
 
 ```
 class User extends Model
 {
-  use \VahidIrn\FilterQueryNeo\FilterQueryNeoTrait;
+  use \VahidIrn\FilterQuery\FilterQueryTrait;
   
-  public function getFilterQueryNeo () {
+  public function getFilterQuery () {
     return [
-      'name' => FilterQueryNeo::String,
-      'email' => FilterQueryNeo::String
+      'name' => FilterQuery::String,
+      'email' => FilterQuery::String
     ];
   }
 }
@@ -112,8 +112,8 @@ A class may provide custom rules to apply to fields.
 ```
 class User extends Model
 {
-  use \VahidIrn\FilterQueryNeo\FilterQueryNeoTrait;
-  protected $filterQueryNeo = [
+  use \VahidIrn\FilterQuery\FilterQueryTrait;
+  protected $filterQuery = [
     'keyword' => 'Keyword'
   ];
   public function scopeFilterKeyword($query, $field, $arg) {
@@ -127,7 +127,7 @@ class User extends Model
 }
 ```
 
-Custom rules can be listed in the $filterQueryNeo definition along with the built-in rules and work in the same way. The first rule in $filterQueryNeo is the default rule for the field. If it's not the first rule it must have the rule name added as a suffix to the field name in the query.
+Custom rules can be listed in the $filterQuery definition along with the built-in rules and work in the same way. The first rule in $filterQuery is the default rule for the field. If it's not the first rule it must have the rule name added as a suffix to the field name in the query.
 
 Rule names are converted to 'ucfirst' and appended to 'scopeFilter'.
 
@@ -197,9 +197,9 @@ Relationships can be used to filter related models.
 
 class Post extends Model
 {
-  use \VahidIrn\FilterQueryNeo\FilterQueryNeoTrait;
+  use \VahidIrn\FilterQuery\FilterQueryTrait;
   
-  public function getFilterQueryNeo () {
+  public function getFilterQuery () {
     return [
       'comment' => $this->comments()
     ];
@@ -212,11 +212,11 @@ class Post extends Model
 
 class Comment extends Model
 {
-  use \VahidIrn\FilterQueryNeo\FilterQueryNeoTrait;
+  use \VahidIrn\FilterQuery\FilterQueryTrait;
   
-  public function getFilterQueryNeo () {
+  public function getFilterQuery () {
     return [
-      'created_at' => FilterQueryNeo::Date
+      'created_at' => FilterQuery::Date
     ];
   }
   
@@ -247,9 +247,9 @@ Filters are deeply merged when chaining.
 ```
 class Post extends Model
 {
-  use \VahidIrn\FilterQueryNeo\FilterQueryNeoTrait;
+  use \VahidIrn\FilterQuery\FilterQueryTrait;
   
-  public function getFilterQueryNeo () {
+  public function getFilterQuery () {
     return [
       'comment' => $this->comments()
     ];
@@ -262,20 +262,20 @@ class Post extends Model
 
 class User extends Model
 {
-  use \VahidIrn\FilterQueryNeo\FilterQueryNeoTrait;
+  use \VahidIrn\FilterQuery\FilterQueryTrait;
   
-  protected $filterQueryNeo = [
-    'id' => FilterQueryNeo::Integer
+  protected $filterQuery = [
+    'id' => FilterQuery::Integer
   ];
 }
 
 class Comment extends Model
 {
-  use \VahidIrn\FilterQueryNeo\FilterQueryNeoTrait;
+  use \VahidIrn\FilterQuery\FilterQueryTrait;
   
-  public function getFilterQueryNeo () {
+  public function getFilterQuery () {
     return [
-      'created_at' => FilterQueryNeo::Date,
+      'created_at' => FilterQuery::Date,
       'author' => $this->author()
     ];
   }
@@ -335,15 +335,15 @@ Post::filter($filter1)->filterApply()->filter($filter2)->toSql()
 
 # Full text search
 
-The `FilterQueryNeo::FT` rule provides a basic form of full text search in PostgreSQL using tsearch.
+The `FilterQuery::FT` rule provides a basic form of full text search in PostgreSQL using tsearch.
 
-To make use of the full text rule the application must provide a table populated with search data. By default, the table is named according to the model name with `_filterQueryNeo` as suffix, and has a one-to-one mapping using the same primary key as the model's table. The tsearch vector data is stored in a column using the field's name with `_vector` suffix. The table and vector field names can be customised by provide values for the filterQueryNeoFtTable and filterQueryNeoFtVector properties.
+To make use of the full text rule the application must provide a table populated with search data. By default, the table is named according to the model name with `_filterQuery` as suffix, and has a one-to-one mapping using the same primary key as the model's table. The tsearch vector data is stored in a column using the field's name with `_vector` suffix. The table and vector field names can be customised by provide values for the filterQueryFtTable and filterQueryFtVector properties.
 
 ```
 -- Content model table
 create table posts (id int primary key, body text);
 -- Full text search data
-create table posts_filterQueryNeo (id int references posts (id), body_vector tsvector);
+create table posts_filterQuery (id int references posts (id), body_vector tsvector);
 ```
 
 The application must ensure the vector field is appropriately updated (usually by defining trigger functions).
@@ -351,9 +351,9 @@ The application must ensure the vector field is appropriately updated (usually b
 ```
 class Post
 {
-  use \VahidIrn\FilterQueryNeo\FilterQueryNeoTrait;
-  protected $filterQueryNeo = [
-    'body' => FilterQueryNeo::FT
+  use \VahidIrn\FilterQuery\FilterQueryTrait;
+  protected $filterQuery = [
+    'body' => FilterQuery::FT
   ];
 }
 $filter = [
@@ -362,7 +362,7 @@ $filter = [
 Post::filter($filter)->orderBy('body_rank', 'desc')->toSql();
 // select * from "posts" inner join (
 //  select "id", ts_rank("body_vector", query) as "body_rank"
-//  from "posts_filterQueryNeo"
+//  from "posts_filterQuery"
 //  cross join plainto_tsquery(?) query
 //  where "body_vector" @@ "query"
 // ) as body_1 on "posts"."id" = "body_1"."id"
@@ -374,13 +374,13 @@ The model may provide custom values for the search table, foreign key, and field
 ```
 class Post
 {
-  use \VahidIrn\FilterQueryNeo\FilterQueryNeoTrait;
-  protected $filterQueryNeo = [
-    'body' => FilterQueryNeo::FT
+  use \VahidIrn\FilterQuery\FilterQueryTrait;
+  protected $filterQuery = [
+    'body' => FilterQuery::FT
   ];
-  protected $filterQueryNeoFtTable = 'search';
-  protected $filterQueryNeoFtKeyName = 'post_id';
-  protected $filterQueryNeoFtVector = 'data';
+  protected $filterQueryFtTable = 'search';
+  protected $filterQueryFtKeyName = 'post_id';
+  protected $filterQueryFtVector = 'data';
 }
 ```
 
@@ -389,17 +389,17 @@ These custom values may also be evaluated dynamically by providing "get" functio
 ```
 class Post
 {
-  use \VahidIrn\FilterQueryNeo\FilterQueryNeoTrait;
-  protected $filterQueryNeo = [
-    'body' => FilterQueryNeo::FT
+  use \VahidIrn\FilterQuery\FilterQueryTrait;
+  protected $filterQuery = [
+    'body' => FilterQuery::FT
   ];
-  public function getFilterQueryNeoFtTable ($field) {
+  public function getFilterQueryFtTable ($field) {
     return 'search';
   };
-  public function getFilterQueryNeoFtKeyName ($field) {
+  public function getFilterQueryFtKeyName ($field) {
     return 'post_id';
   }
-  public function getFilterQueryNeoFtVector ($field) {
+  public function getFilterQueryFtVector ($field) {
     return $field;
   }
 }
