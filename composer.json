@@ -16,7 +16,7 @@
     ],
     "autoload": {
         "psr-4": {
-            "VahidIrn\\FilterQueryNeo\\": "src"
+            "VahidIrn\\FilterQuery\\": "src"
         }
     },
     "license": "MIT"
