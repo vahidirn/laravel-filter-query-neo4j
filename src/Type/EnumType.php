@@ -1,17 +1,17 @@
 <?php
 
-namespace VahidIrn\FilterQueryNeo\Type;
+namespace VahidIrn\FilterQuery\Type;
 
-use VahidIrn\FilterQueryNeo\FilterQueryNeo;
-use VahidIrn\FilterQueryNeo\FilterQueryNeoType;
+use VahidIrn\FilterQuery\FilterQuery;
+use VahidIrn\FilterQuery\FilterQueryType;
 
-class EnumType implements FilterQueryNeoType
+class EnumType implements FilterQueryType
 {
     const type = 'Enum';
     static function defaultRules () {
         return [
-          FilterQueryNeo::EQ,
-          FilterQueryNeo::IN
+          FilterQuery::EQ,
+          FilterQuery::IN
         ];
     }
 }

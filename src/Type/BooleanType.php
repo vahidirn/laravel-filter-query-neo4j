@@ -1,16 +1,16 @@
 <?php
 
-namespace VahidIrn\FilterQueryNeo\Type;
+namespace VahidIrn\FilterQuery\Type;
 
-use VahidIrn\FilterQueryNeo\FilterQueryNeo;
-use VahidIrn\FilterQueryNeo\FilterQueryNeoType;
+use VahidIrn\FilterQuery\FilterQuery;
+use VahidIrn\FilterQuery\FilterQueryType;
 
-class BooleanType implements FilterQueryNeoType
+class BooleanType implements FilterQueryType
 {
     const type = 'Boolean';
     static function defaultRules () {
         return [
-          FilterQueryNeo::EQ
+          FilterQuery::EQ
         ];
     }
 }

@@ -1,20 +1,20 @@
 <?php
 
-namespace VahidIrn\FilterQueryNeo\Type;
+namespace VahidIrn\FilterQuery\Type;
 
-use VahidIrn\FilterQueryNeo\FilterQueryNeo;
-use VahidIrn\FilterQueryNeo\FilterQueryNeoType;
+use VahidIrn\FilterQuery\FilterQuery;
+use VahidIrn\FilterQuery\FilterQueryType;
 
-class NumericType implements FilterQueryNeoType
+class NumericType implements FilterQueryType
 {
     const type = 'Numeric';
     static function defaultRules () {
         return [
-          FilterQueryNeo::EQ,
-          FilterQueryNeo::MIN,
-          FilterQueryNeo::MAX,
-          FilterQueryNeo::LT,
-          FilterQueryNeo::GT
+          FilterQuery::EQ,
+          FilterQuery::MIN,
+          FilterQuery::MAX,
+          FilterQuery::LT,
+          FilterQuery::GT
         ];
     }
 }

@@ -1,20 +1,20 @@
 <?php
 
-namespace VahidIrn\FilterQueryNeo\Type;
+namespace VahidIrn\FilterQuery\Type;
 
-use VahidIrn\FilterQueryNeo\FilterQueryNeo;
-use \VahidIrn\FilterQueryNeo\FilterQueryNeoType;
+use VahidIrn\FilterQuery\FilterQuery;
+use \VahidIrn\FilterQuery\FilterQueryType;
 
-class StringType implements FilterQueryNeoType
+class StringType implements FilterQueryType
 {
     const type = 'String';
     static function defaultRules () {
         return [
-          FilterQueryNeo::EQ,
-          FilterQueryNeo::REGEX,
-          FilterQueryNeo::CONTAINS,
-          FilterQueryNeo::STARTS_WITH,
-          FilterQueryNeo::ENDS_WITH,
+          FilterQuery::EQ,
+          FilterQuery::REGEX,
+          FilterQuery::CONTAINS,
+          FilterQuery::STARTS_WITH,
+          FilterQuery::ENDS_WITH,
         ];
     }
 }

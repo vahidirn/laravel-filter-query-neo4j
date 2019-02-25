@@ -1,21 +1,21 @@
 <?php
 
-namespace VahidIrn\FilterQueryNeo\Type;
+namespace VahidIrn\FilterQuery\Type;
 
-use VahidIrn\FilterQueryNeo\FilterQueryNeo;
-use VahidIrn\FilterQueryNeo\FilterQueryNeoType;
+use VahidIrn\FilterQuery\FilterQuery;
+use VahidIrn\FilterQuery\FilterQueryType;
 
-class IntegerType implements FilterQueryNeoType
+class IntegerType implements FilterQueryType
 {
     const type = 'Integer';
     static function defaultRules () {
         return [
-          FilterQueryNeo::EQ,
-          FilterQueryNeo::IN,
-          FilterQueryNeo::MIN,
-          FilterQueryNeo::MAX,
-          FilterQueryNeo::LT,
-          FilterQueryNeo::GT
+          FilterQuery::EQ,
+          FilterQuery::IN,
+          FilterQuery::MIN,
+          FilterQuery::MAX,
+          FilterQuery::LT,
+          FilterQuery::GT
         ];
     }
 }
